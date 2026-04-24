@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 
 interface PublicUser {
   id: number;
@@ -17,12 +17,12 @@ interface PublicUser {
   styleUrl: './public-api-example.css',
 })
 export class PublicApiExample implements OnInit {
+  private readonly http = inject(HttpClient);
+
   readonly users = signal<PublicUser[]>([]);
   readonly loading = signal(false);
   readonly error = signal('');
   readonly status = signal('Ready to load users from JSONPlaceholder');
-
-  constructor(private readonly http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadUsers();

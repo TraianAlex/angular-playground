@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { delay, map, of, switchMap, tap } from 'rxjs';
 
 export interface TodoItem {
@@ -10,10 +10,10 @@ export interface TodoItem {
 
 @Injectable({ providedIn: 'root' })
 export class FakeApiService {
+  private readonly http = inject(HttpClient);
+
   private readonly todos = signal<TodoItem[]>([]);
   private initialized = false;
-
-  constructor(private readonly http: HttpClient) {}
 
   listTodos() {
     return this.ensureInit().pipe(map(() => this.todos()));
@@ -25,12 +25,12 @@ export class FakeApiService {
         const next: TodoItem = {
           id: Math.max(0, ...this.todos().map((todo) => todo.id)) + 1,
           title,
-          completed: false
+          completed: false,
         };
         this.todos.update((items) => [next, ...items]);
         return next;
       }),
-      delay(1000)
+      delay(1000),
     );
   }
 
@@ -39,7 +39,7 @@ export class FakeApiService {
       delay(1000),
       tap((todo) => {
         this.todos.update((items) => items.map((item) => (item.id === todo.id ? todo : item)));
-      })
+      }),
     );
   }
 
@@ -48,7 +48,7 @@ export class FakeApiService {
       delay(1000),
       tap((todoId) => {
         this.todos.update((items) => items.filter((item) => item.id !== todoId));
-      })
+      }),
     );
   }
 
@@ -64,7 +64,7 @@ export class FakeApiService {
         this.initialized = true;
       }),
       map(() => void 0),
-      switchMap(() => of(void 0))
+      switchMap(() => of(void 0)),
     );
   }
 }

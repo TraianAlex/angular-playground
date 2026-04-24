@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { FakeApiService, TodoItem } from '../../services/fake-api.service';
@@ -10,12 +10,12 @@ import { FakeApiService, TodoItem } from '../../services/fake-api.service';
   styleUrl: './todo-example.css',
 })
 export class TodoExample implements OnInit {
+  private readonly fakeApi = inject(FakeApiService);
+
   readonly todos = signal<TodoItem[]>([]);
   readonly loading = signal(false);
   readonly newTitle = signal('');
   readonly status = signal('');
-
-  constructor(private readonly fakeApi: FakeApiService) {}
 
   ngOnInit(): void {
     this.fetchTodos();
