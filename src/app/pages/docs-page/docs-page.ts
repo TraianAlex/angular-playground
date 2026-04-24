@@ -3,7 +3,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { DOC_PAGES } from '../docs-content';
+import { DOC_PAGES } from '../../docs-content';
 
 @Component({
   selector: 'app-docs-page',

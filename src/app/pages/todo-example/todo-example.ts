@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { FakeApiService, TodoItem } from '../services/fake-api.service';
+import { FakeApiService, TodoItem } from '../../services/fake-api.service';
 
 @Component({
   selector: 'app-todo-example',
