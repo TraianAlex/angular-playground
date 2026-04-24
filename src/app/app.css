@@ -6,8 +6,8 @@
 .app-shell {
   min-height: 100dvh;
   background:
-    radial-gradient(circle at 20% 0%, #eef2ff 0%, #f8fafc 36%, #eef2ff 100%);
-  color: #0f172a;
+    radial-gradient(circle at 20% 0%, #241f1a 0%, #1a1612 36%, #0f0d0b 100%);
+  color: #f5efe6;
 }
 
 header {

@@ -2,6 +2,11 @@ export interface DocSection {
   id: string;
   title: string;
   content: string[];
+  example: {
+    title: string;
+    description: string;
+    route: string;
+  };
 }
 
 export interface ExampleLink {
@@ -17,4 +22,8 @@ export interface DocPage {
   sections: DocSection[];
   answerSnippets: string[];
   exampleLinks: ExampleLink[];
+  resources?: Array<{
+    label: string;
+    url: string;
+  }>;
 }

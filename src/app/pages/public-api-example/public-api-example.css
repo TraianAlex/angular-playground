@@ -2,6 +2,7 @@
   max-width: 1024px;
   margin: 0 auto;
   padding: 1.5rem;
+  color: #e5e7eb;
 }
 
 .label {
@@ -25,7 +26,7 @@ button {
 }
 
 .status {
-  color: #4b5563;
+  color: #cbd5e1;
 }
 
 .error {
@@ -47,6 +48,13 @@ button {
   border-radius: 12px;
   background: #ffffff;
   padding: 1rem;
+  color: #111827;
+}
+
+.card h2,
+.card p,
+.card strong {
+  color: #111827;
 }
 
 @media (max-width: 760px) {

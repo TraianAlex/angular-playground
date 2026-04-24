@@ -24,6 +24,11 @@
           @for (line of section.content; track line) {
             <p>{{ line }}</p>
           }
+          <div class="section-example">
+            <p class="section-example-title">{{ section.example.title }}</p>
+            <p class="section-example-description">{{ section.example.description }}</p>
+            <a class="button button-secondary" [routerLink]="section.example.route">Open this example</a>
+          </div>
         </section>
       }
 
@@ -45,6 +50,19 @@
           }
         </div>
       </section>
+
+      @if (page.resources?.length) {
+        <section class="resources">
+          <h2>Angular 20/21 Resources</h2>
+          <div class="resource-list">
+            @for (resource of page.resources; track resource.url) {
+              <a class="resource-link" [href]="resource.url" target="_blank" rel="noopener noreferrer">
+                {{ resource.label }}
+              </a>
+            }
+          </div>
+        </section>
+      }
     </article>
 
     <aside class="right-nav">

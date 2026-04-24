@@ -2,6 +2,7 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 1.5rem;
+  color: #e5e7eb;
 }
 
 .label {
@@ -15,6 +16,7 @@
   border: 1px solid #dbeafe;
   border-radius: 14px;
   padding: 1rem;
+  color: #111827;
 }
 
 .progress {
@@ -69,6 +71,7 @@ blockquote {
   background: #f5f3ff;
   border-radius: 8px;
   padding: 0.75rem;
+  color: #1f2937;
 }
 
 .score {
