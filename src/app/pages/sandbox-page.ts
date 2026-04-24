@@ -118,7 +118,25 @@ export class SandboxPage implements AfterViewInit {
                 }
 
                 const className = classMatch[1];
-                return new Function(normalized + '\\nreturn new ' + className + '();')();
+
+                // Minimal Angular-like signal runtime so sandbox code can use:
+                // const value = signal(0); value(); value.set(1); value.update(v => v + 1)
+                const createSignal = (initialValue) => {
+                  let current = initialValue;
+                  const read = () => current;
+                  read.set = (nextValue) => {
+                    current = nextValue;
+                  };
+                  read.update = (updater) => {
+                    current = updater(current);
+                  };
+                  return read;
+                };
+
+                return new Function(
+                  'signal',
+                  normalized + '\\nreturn new ' + className + '();'
+                )(createSignal);
               }
 
               const state = createStateFromComponent(componentSource);
