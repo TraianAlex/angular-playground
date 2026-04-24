@@ -2,32 +2,54 @@
   <header>
     <p class="label">Interactive Lab</p>
     <h1>Component Sandbox (TS + HTML + CSS)</h1>
-    <p>
-      Storybook-style playground where you can edit component script, template and styles in separate panes
-      and see a live preview.
-    </p>
+    <p>Angular-style sandbox with run/reset, pane toggles, and live preview.</p>
   </header>
 
   <div class="actions">
-    <button (click)="loadCounterPreset()">Load Counter Preset</button>
+    <button (click)="runPreview()">Run</button>
+    <button (click)="resetPreview()">Reset</button>
+    <button (click)="toggleEditorsHeight()">{{ tallEditors() ? 'Short editors' : 'Tall editors' }}</button>
   </div>
 
-  <div class="grid">
-    <label>
-      <span>Component (TS-like)</span>
-      <textarea [ngModel]="componentCode()" (ngModelChange)="componentCode.set($event)"></textarea>
-    </label>
-
-    <label>
-      <span>Template (HTML)</span>
-      <textarea [ngModel]="htmlCode()" (ngModelChange)="htmlCode.set($event)"></textarea>
-    </label>
-
-    <label>
-      <span>Styles (CSS)</span>
-      <textarea [ngModel]="cssCode()" (ngModelChange)="cssCode.set($event)"></textarea>
-    </label>
+  <div class="restore-tabs" [hidden]="htmlVisible() && cssVisible() && tsVisible()">
+    @if (!htmlVisible()) {
+      <button (click)="showPane('html')">Show HTML</button>
+    }
+    @if (!cssVisible()) {
+      <button (click)="showPane('css')">Show CSS</button>
+    }
+    @if (!tsVisible()) {
+      <button (click)="showPane('ts')">Show TypeScript</button>
+    }
   </div>
 
-  <div class="preview" [innerHTML]="preview()"></div>
+  <div class="grid" [class.tall]="tallEditors()">
+    @if (tsVisible()) {
+      <label>
+        <span>TypeScript <button class="close" (click)="hidePane('ts')">x</button></span>
+        <textarea
+          [ngModel]="componentCode()"
+          (ngModelChange)="componentCode.set($event); onEditorInput()"
+        ></textarea>
+      </label>
+    }
+
+    @if (htmlVisible()) {
+      <label>
+        <span>HTML <button class="close" (click)="hidePane('html')">x</button></span>
+        <textarea [ngModel]="htmlCode()" (ngModelChange)="htmlCode.set($event); onEditorInput()"></textarea>
+      </label>
+    }
+
+    @if (cssVisible()) {
+      <label>
+        <span>CSS <button class="close" (click)="hidePane('css')">x</button></span>
+        <textarea [ngModel]="cssCode()" (ngModelChange)="cssCode.set($event); onEditorInput()"></textarea>
+      </label>
+    }
+  </div>
+
+  <div class="preview">
+    <iframe #previewFrame title="Sandbox preview"></iframe>
+  </div>
 </section>

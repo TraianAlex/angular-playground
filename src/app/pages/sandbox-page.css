@@ -9,16 +9,28 @@
   font-weight: 600;
 }
 
-.actions {
-  margin: 1rem 0;
+.actions,
+.restore-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.8rem 0;
 }
 
 button {
-  border: 0;
-  border-radius: 8px;
-  background: #111827;
+  border: 1px solid #c7d2fe;
+  border-radius: 999px;
+  background: #1e1b4b;
   color: #fff;
-  padding: 0.55rem 0.9rem;
+  padding: 0.4rem 0.8rem;
+}
+
+button.close {
+  border: 0;
+  border-radius: 999px;
+  background: #334155;
+  padding: 0 0.45rem;
+  margin-left: 0.35rem;
 }
 
 .grid {
@@ -27,14 +39,24 @@ button {
   gap: 1rem;
 }
 
+.grid.tall textarea {
+  min-height: 340px;
+}
+
 label {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
 }
 
+label > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 textarea {
-  min-height: 240px;
+  min-height: 220px;
   resize: vertical;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
@@ -45,10 +67,17 @@ textarea {
 
 .preview {
   margin-top: 1rem;
-  min-height: 300px;
+  min-height: 360px;
   border: 1px solid #cbd5e1;
   border-radius: 12px;
   overflow: hidden;
+  background: #0f172a;
+}
+
+iframe {
+  width: 100%;
+  min-height: 360px;
+  border: 0;
 }
 
 @media (max-width: 980px) {

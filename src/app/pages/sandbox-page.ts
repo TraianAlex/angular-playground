@@ -1,29 +1,28 @@
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, computed, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+const DEFAULT_COMPONENT = `import { Component } from '@angular/core';
+
 @Component({
-  selector: 'app-sandbox-page',
-  imports: [FormsModule],
-  templateUrl: './sandbox-page.html',
-  styleUrl: './sandbox-page.css'
+  selector: 'app-demo-counter'
 })
-export class SandboxPage {
-  readonly componentCode = signal(`export default {
-  title: 'Angular Sandbox',
-  count: 0,
+export class DemoCounter {
+  title = 'Angular Sandbox';
+  count = 0;
+
   increment() {
     this.count += 1;
   }
-};`);
+}`;
 
-  readonly htmlCode = signal(`<section class="card">
+const DEFAULT_HTML = `<section class="card">
   <h2>{{ title }}</h2>
   <p>You clicked {{ count }} times</p>
-  <button data-action="increment">Click me</button>
-</section>`);
+  <button (click)="increment()" [disabled]="count >= 10">Click me</button>
+</section>`;
 
-  readonly cssCode = signal(`.card {
+const DEFAULT_CSS = `.card {
   padding: 1rem;
   border-radius: 10px;
   background: #111827;
@@ -33,62 +32,192 @@ button {
   border: 0;
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
-}`);
+}`;
 
-  readonly preview = computed(() => this.buildPreview());
+@Component({
+  selector: 'app-sandbox-page',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './sandbox-page.html',
+  styleUrl: './sandbox-page.css'
+})
+export class SandboxPage implements AfterViewInit {
+  @ViewChild('previewFrame') previewFrame?: ElementRef<HTMLIFrameElement>;
 
-  constructor(private readonly sanitizer: DomSanitizer) {}
+  readonly componentCode = signal(DEFAULT_COMPONENT);
+  readonly htmlCode = signal(DEFAULT_HTML);
+  readonly cssCode = signal(DEFAULT_CSS);
 
-  private buildPreview(): SafeHtml {
-    const escapedComponent = JSON.stringify(this.componentCode());
-    const escapedHtml = JSON.stringify(this.htmlCode());
-    const escapedCss = JSON.stringify(this.cssCode());
+  readonly htmlVisible = signal(true);
+  readonly cssVisible = signal(true);
+  readonly tsVisible = signal(true);
+  readonly tallEditors = signal(false);
 
-    const srcdoc = `
-      <html>
-      <body>
-        <div id="app"></div>
-        <style>${this.cssCode()}</style>
-        <script>
-          const source = ${escapedComponent};
-          const template = ${escapedHtml};
-          const stateFactory = new Function(source.replace('export default', 'return'));
-          const state = stateFactory();
+  private runId = 0;
+  private debounceTimer?: number;
 
-          function render() {
-            const app = document.getElementById('app');
-            if (!app) return;
-            let view = template.replace(/{{\\s*(\\w+)\\s*}}/g, (_, key) => state[key] ?? '');
-            app.innerHTML = view;
-            app.querySelectorAll('[data-action]').forEach((el) => {
-              const action = el.getAttribute('data-action');
-              el.addEventListener('click', () => {
-                if (action && typeof state[action] === 'function') {
-                  state[action].call(state);
-                  render();
+  ngAfterViewInit(): void {
+    this.runPreview();
+  }
+
+  onEditorInput(): void {
+    if (this.debounceTimer) {
+      window.clearTimeout(this.debounceTimer);
+    }
+    this.debounceTimer = window.setTimeout(() => this.runPreview(), 500);
+  }
+
+  runPreview(): void {
+    const iframe = this.previewFrame?.nativeElement;
+    if (!iframe) {
+      return;
+    }
+
+    this.runId += 1;
+    const currentRunId = this.runId;
+
+    const writeDocument = (doc: Document) => {
+      doc.open();
+      doc.write(`
+        <!doctype html>
+        <html>
+          <head>
+            <meta charset="utf-8" />
+            <style>
+              body {
+                margin: 0;
+                font-family: system-ui, sans-serif;
+                background: #111827;
+                color: #f9fafb;
+                padding: 16px;
+              }
+              ${this.cssCode()}
+            </style>
+          </head>
+          <body>
+            <div id="app"></div>
+            <script>
+              const componentSource = ${JSON.stringify(this.componentCode())};
+              const template = ${JSON.stringify(this.htmlCode())};
+
+              function evaluateExpression(expression, state) {
+                try {
+                  return new Function('state', 'with (state) { return (' + expression + '); }')(state);
+                } catch (_error) {
+                  return '';
                 }
-              });
-            });
-          }
+              }
 
-          render();
-        </script>
-      </body>
-      </html>
-    `;
+              function createStateFromComponent(source) {
+                const withoutImports = source.replace(/^\\s*import[^;]+;\\s*$/gm, '');
+                const withoutDecorator = withoutImports.replace(/@Component\\s*\\(\\s*\\{[\\s\\S]*?\\}\\s*\\)\\s*/m, '');
+                const normalized = withoutDecorator.replace(/export\\s+class\\s+/, 'class ');
+                const classMatch = normalized.match(/class\\s+(\\w+)/);
 
-    return this.sanitizer.bypassSecurityTrustHtml(
-      `<iframe title="preview" style="width:100%;height:100%;border:0;" srcdoc=${JSON.stringify(srcdoc)}></iframe>`
-    );
+                if (!classMatch) {
+                  throw new Error('Component class not found. Use: export class MyComponent { ... }');
+                }
+
+                const className = classMatch[1];
+                return new Function(normalized + '\\nreturn new ' + className + '();')();
+              }
+
+              const state = createStateFromComponent(componentSource);
+
+              function render() {
+                const app = document.getElementById('app');
+                if (!app) return;
+
+                const view = template.replace(/{{\\s*([^}]+)\\s*}}/g, (_match, expression) => {
+                  const value = evaluateExpression(expression, state);
+                  return value == null ? '' : String(value);
+                });
+
+                app.innerHTML = view;
+
+                app.querySelectorAll('*').forEach((el) => {
+                  const clickExpr = el.getAttribute('(click)');
+                  if (clickExpr) {
+                    const methodName = clickExpr.replace('()', '').trim();
+                    el.addEventListener('click', () => {
+                      if (typeof state[methodName] === 'function') {
+                        state[methodName].call(state);
+                        render();
+                      }
+                    });
+                  }
+
+                  const disabledExpr = el.getAttribute('[disabled]');
+                  if (disabledExpr) {
+                    const disabled = evaluateExpression(disabledExpr, state);
+                    if (disabled) {
+                      el.setAttribute('disabled', 'disabled');
+                    } else {
+                      el.removeAttribute('disabled');
+                    }
+                  }
+                });
+              }
+
+              try {
+                render();
+              } catch (error) {
+                const app = document.getElementById('app');
+                if (app) {
+                  app.innerHTML = '<pre style="color:#fca5a5;white-space:pre-wrap;">' + String(error) + '</pre>';
+                }
+              }
+            <\/script>
+          </body>
+        </html>
+      `);
+      doc.close();
+    };
+
+    iframe.onload = () => {
+      if (currentRunId !== this.runId) {
+        return;
+      }
+
+      const doc = iframe.contentDocument ?? iframe.contentWindow?.document;
+      if (doc) {
+        writeDocument(doc);
+      }
+      iframe.onload = null;
+    };
+
+    iframe.src = 'about:blank';
   }
 
-  loadCounterPreset() {
-    this.componentCode.set(`export default {
-  title: 'Counter Challenge',
-  count: 10,
-  increment() {
-    this.count += 2;
+  resetPreview(): void {
+    this.componentCode.set(DEFAULT_COMPONENT);
+    this.htmlCode.set(DEFAULT_HTML);
+    this.cssCode.set(DEFAULT_CSS);
+
+    this.htmlVisible.set(true);
+    this.cssVisible.set(true);
+    this.tsVisible.set(true);
+
+    this.runPreview();
   }
-};`);
+
+  hidePane(pane: 'html' | 'css' | 'ts'): void {
+    const visibleCount = [this.htmlVisible(), this.cssVisible(), this.tsVisible()].filter(Boolean).length;
+    if (visibleCount <= 1) {
+      return;
+    }
+
+    if (pane === 'html') this.htmlVisible.set(false);
+    if (pane === 'css') this.cssVisible.set(false);
+    if (pane === 'ts') this.tsVisible.set(false);
+  }
+
+  showPane(pane: 'html' | 'css' | 'ts'): void {
+    if (pane === 'html') this.htmlVisible.set(true);
+    if (pane === 'css') this.cssVisible.set(true);
+    if (pane === 'ts') this.tsVisible.set(true);
+  }
+
+  toggleEditorsHeight(): void {
+    this.tallEditors.update((value) => !value);
   }
 }
