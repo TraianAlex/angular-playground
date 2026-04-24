@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
 
@@ -13,9 +12,9 @@ interface PublicUser {
 
 @Component({
   selector: 'app-public-api-example',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './public-api-example.html',
-  styleUrl: './public-api-example.css'
+  styleUrl: './public-api-example.css',
 })
 export class PublicApiExample implements OnInit {
   readonly users = signal<PublicUser[]>([]);
@@ -44,7 +43,7 @@ export class PublicApiExample implements OnInit {
         this.loading.set(false);
         this.error.set('Failed to load users. Check internet connection and retry.');
         this.status.set('Public API request failed.');
-      }
+      },
     });
   }
 }

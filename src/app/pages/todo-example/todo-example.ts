@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -6,9 +5,9 @@ import { FakeApiService, TodoItem } from '../../services/fake-api.service';
 
 @Component({
   selector: 'app-todo-example',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './todo-example.html',
-  styleUrl: './todo-example.css'
+  styleUrl: './todo-example.css',
 })
 export class TodoExample implements OnInit {
   readonly todos = signal<TodoItem[]>([]);
@@ -30,7 +29,7 @@ export class TodoExample implements OnInit {
         this.todos.set(items);
         this.loading.set(false);
         this.status.set('Data loaded from local JSON API simulation.');
-      }
+      },
     });
   }
 
@@ -45,21 +44,21 @@ export class TodoExample implements OnInit {
       next: () => {
         this.newTitle.set('');
         this.fetchTodos();
-      }
+      },
     });
   }
 
   toggleTodo(todo: TodoItem) {
     this.loading.set(true);
     this.fakeApi.updateTodo({ ...todo, completed: !todo.completed }).subscribe({
-      next: () => this.fetchTodos()
+      next: () => this.fetchTodos(),
     });
   }
 
   removeTodo(id: number) {
     this.loading.set(true);
     this.fakeApi.deleteTodo(id).subscribe({
-      next: () => this.fetchTodos()
+      next: () => this.fetchTodos(),
     });
   }
 }

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 interface CheatSection {
@@ -8,9 +7,9 @@ interface CheatSection {
 
 @Component({
   selector: 'app-cheat-sheet-page',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './cheat-sheet-page.html',
-  styleUrl: './cheat-sheet-page.css'
+  styleUrl: './cheat-sheet-page.css',
 })
 export class CheatSheetPage {
   readonly sections: CheatSection[] = [
@@ -19,25 +18,25 @@ export class CheatSheetPage {
       bullets: [
         'Standalone components are now the default mental model.',
         'Use DI scopes (root/route/component) intentionally.',
-        'Signals are excellent for local synchronous state.'
-      ]
+        'Signals are excellent for local synchronous state.',
+      ],
     },
     {
       title: 'Routing and State',
       bullets: [
         'Keep shareable state in URLs.',
         'Use resolvers for must-have initial data only.',
-        'Services own shared feature state lifecycles.'
-      ]
+        'Services own shared feature state lifecycles.',
+      ],
     },
     {
       title: 'Performance and Testing',
       bullets: [
         'Prefer OnPush + immutable updates + trackBy.',
         'Model loading/success/error states clearly.',
-        'Test user outcomes and async failure paths.'
-      ]
-    }
+        'Test user outcomes and async failure paths.',
+      ],
+    },
   ];
 
   downloadCheatSheet() {
@@ -47,8 +46,8 @@ export class CheatSheetPage {
       ...this.sections.flatMap((section) => [
         `## ${section.title}`,
         ...section.bullets.map((bullet) => `- ${bullet}`),
-        ''
-      ])
+        '',
+      ]),
     ];
 
     const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });

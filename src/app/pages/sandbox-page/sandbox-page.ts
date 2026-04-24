@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -36,9 +35,9 @@ button {
 
 @Component({
   selector: 'app-sandbox-page',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './sandbox-page.html',
-  styleUrl: './sandbox-page.css'
+  styleUrl: './sandbox-page.css',
 })
 export class SandboxPage implements AfterViewInit {
   @ViewChild('previewFrame') previewFrame?: ElementRef<HTMLIFrameElement>;
@@ -219,7 +218,9 @@ export class SandboxPage implements AfterViewInit {
   }
 
   hidePane(pane: 'html' | 'css' | 'ts'): void {
-    const visibleCount = [this.htmlVisible(), this.cssVisible(), this.tsVisible()].filter(Boolean).length;
+    const visibleCount = [this.htmlVisible(), this.cssVisible(), this.tsVisible()].filter(
+      Boolean,
+    ).length;
     if (visibleCount <= 1) {
       return;
     }
