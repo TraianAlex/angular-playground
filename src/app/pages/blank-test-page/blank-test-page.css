@@ -1,0 +1,19 @@
+.blank-test-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.label {
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+.workspace {
+  margin-top: 1rem;
+  min-height: 320px;
+  border: 1px dashed #94a3b8;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 1rem;
+}

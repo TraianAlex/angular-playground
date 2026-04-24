@@ -29,5 +29,9 @@ export const routes: Routes = [
     path: 'sandbox',
     loadComponent: () => import('./pages/sandbox-page/sandbox-page').then((m) => m.SandboxPage)
   },
+  {
+    path: 'blank-test',
+    loadComponent: () => import('./pages/blank-test-page/blank-test-page').then((m) => m.BlankTestPage)
+  },
   { path: '**', redirectTo: 'docs/fundamentals' }
 ];
