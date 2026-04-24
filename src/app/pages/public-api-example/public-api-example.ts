@@ -1,14 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, signal, inject } from '@angular/core';
-
-interface PublicUser {
-  id: number;
-  name: string;
-  email: string;
-  company: {
-    name: string;
-  };
-}
+import { PublicUser, PublicUsersService } from '../../services/public-users.service';
 
 @Component({
   selector: 'app-public-api-example',
@@ -17,7 +8,7 @@ interface PublicUser {
   styleUrl: './public-api-example.css',
 })
 export class PublicApiExample implements OnInit {
-  private readonly http = inject(HttpClient);
+  private readonly publicUsersService = inject(PublicUsersService);
 
   readonly users = signal<PublicUser[]>([]);
   readonly loading = signal(false);
@@ -33,7 +24,7 @@ export class PublicApiExample implements OnInit {
     this.error.set('');
     this.status.set('Fetching users from public API...');
 
-    this.http.get<PublicUser[]>('https://jsonplaceholder.typicode.com/users').subscribe({
+    this.publicUsersService.listUsers().subscribe({
       next: (users) => {
         this.users.set(users);
         this.loading.set(false);
