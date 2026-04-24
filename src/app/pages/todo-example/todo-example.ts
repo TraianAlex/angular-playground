@@ -1,5 +1,6 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, computed, inject, resource, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 import { FakeApiService, TodoItem } from '../../services/fake-api.service';
 
@@ -9,56 +10,64 @@ import { FakeApiService, TodoItem } from '../../services/fake-api.service';
   templateUrl: './todo-example.html',
   styleUrl: './todo-example.css',
 })
-export class TodoExample implements OnInit {
+export class TodoExample {
   private readonly fakeApi = inject(FakeApiService);
-
-  readonly todos = signal<TodoItem[]>([]);
-  readonly loading = signal(false);
+  private readonly reloadToken = signal(0);
+  private readonly mutating = signal(false);
   readonly newTitle = signal('');
-  readonly status = signal('');
 
-  ngOnInit(): void {
-    this.fetchTodos();
-  }
+  readonly todosResource = resource<TodoItem[], number>({
+    params: () => this.reloadToken(),
+    loader: async () => firstValueFrom(this.fakeApi.listTodos()),
+  });
+  readonly todos = computed(() => this.todosResource.value() ?? []);
+  readonly loading = computed(() => this.todosResource.isLoading() || this.mutating());
+  readonly status = computed(() => {
+    if (this.todosResource.isLoading()) {
+      return 'Loading todos from fake server (1s latency)...';
+    }
+    if (this.mutating()) {
+      return 'Saving changes to fake API...';
+    }
+    if (this.todosResource.error()) {
+      return 'Failed to load todo data.';
+    }
+    return 'Data loaded from local JSON API simulation.';
+  });
 
-  fetchTodos() {
-    this.loading.set(true);
-    this.status.set('Loading todos from fake server (1s latency)...');
-    this.fakeApi.listTodos().subscribe({
-      next: (items) => {
-        this.todos.set(items);
-        this.loading.set(false);
-        this.status.set('Data loaded from local JSON API simulation.');
-      },
-    });
-  }
-
-  addTodo() {
+  async addTodo() {
     const title = this.newTitle().trim();
     if (!title) {
       return;
     }
 
-    this.loading.set(true);
-    this.fakeApi.createTodo(title).subscribe({
-      next: () => {
-        this.newTitle.set('');
-        this.fetchTodos();
-      },
-    });
+    this.mutating.set(true);
+    try {
+      await firstValueFrom(this.fakeApi.createTodo(title));
+      this.newTitle.set('');
+      this.reloadToken.update((value) => value + 1);
+    } finally {
+      this.mutating.set(false);
+    }
   }
 
-  toggleTodo(todo: TodoItem) {
-    this.loading.set(true);
-    this.fakeApi.updateTodo({ ...todo, completed: !todo.completed }).subscribe({
-      next: () => this.fetchTodos(),
-    });
+  async toggleTodo(todo: TodoItem) {
+    this.mutating.set(true);
+    try {
+      await firstValueFrom(this.fakeApi.updateTodo({ ...todo, completed: !todo.completed }));
+      this.reloadToken.update((value) => value + 1);
+    } finally {
+      this.mutating.set(false);
+    }
   }
 
-  removeTodo(id: number) {
-    this.loading.set(true);
-    this.fakeApi.deleteTodo(id).subscribe({
-      next: () => this.fetchTodos(),
-    });
+  async removeTodo(id: number) {
+    this.mutating.set(true);
+    try {
+      await firstValueFrom(this.fakeApi.deleteTodo(id));
+      this.reloadToken.update((value) => value + 1);
+    } finally {
+      this.mutating.set(false);
+    }
   }
 }

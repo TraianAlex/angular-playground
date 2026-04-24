@@ -30,13 +30,13 @@ export class FakeApiService {
         this.todos.update((items) => [next, ...items]);
         return next;
       }),
-      delay(1000),
+      delay(500),
     );
   }
 
   updateTodo(updated: TodoItem) {
     return of(updated).pipe(
-      delay(1000),
+      delay(500),
       tap((todo) => {
         this.todos.update((items) => items.map((item) => (item.id === todo.id ? todo : item)));
       }),
@@ -45,7 +45,7 @@ export class FakeApiService {
 
   deleteTodo(id: number) {
     return of(id).pipe(
-      delay(1000),
+      delay(500),
       tap((todoId) => {
         this.todos.update((items) => items.filter((item) => item.id !== todoId));
       }),
@@ -54,11 +54,11 @@ export class FakeApiService {
 
   private ensureInit() {
     if (this.initialized) {
-      return of(void 0).pipe(delay(1000));
+      return of(void 0).pipe(delay(500));
     }
 
     return this.http.get<TodoItem[]>('/data/todos.json').pipe(
-      delay(1000),
+      delay(500),
       tap((items) => {
         this.todos.set(items);
         this.initialized = true;

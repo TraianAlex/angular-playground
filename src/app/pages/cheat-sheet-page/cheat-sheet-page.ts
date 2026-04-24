@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-interface CheatSection {
-  title: string;
-  bullets: string[];
-}
+import { sections } from './utils';
 
 @Component({
   selector: 'app-cheat-sheet-page',
@@ -12,38 +8,13 @@ interface CheatSection {
   styleUrl: './cheat-sheet-page.css',
 })
 export class CheatSheetPage {
-  readonly sections: CheatSection[] = [
-    {
-      title: 'Core Concepts',
-      bullets: [
-        'Standalone components are now the default mental model.',
-        'Use DI scopes (root/route/component) intentionally.',
-        'Signals are excellent for local synchronous state.',
-      ],
-    },
-    {
-      title: 'Routing and State',
-      bullets: [
-        'Keep shareable state in URLs.',
-        'Use resolvers for must-have initial data only.',
-        'Services own shared feature state lifecycles.',
-      ],
-    },
-    {
-      title: 'Performance and Testing',
-      bullets: [
-        'Prefer OnPush + immutable updates + trackBy.',
-        'Model loading/success/error states clearly.',
-        'Test user outcomes and async failure paths.',
-      ],
-    },
-  ];
+  readonly sections = sections;
 
   downloadCheatSheet() {
     const lines = [
       '# Angular Interview Cheat Sheet',
       '',
-      ...this.sections.flatMap((section) => [
+      ...sections.flatMap((section) => [
         `## ${section.title}`,
         ...section.bullets.map((bullet) => `- ${bullet}`),
         '',
