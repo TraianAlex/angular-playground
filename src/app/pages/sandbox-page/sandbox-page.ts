@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 const DEFAULT_COMPONENT = `import { Component } from '@angular/core';
@@ -40,7 +40,7 @@ button {
   styleUrl: './sandbox-page.css',
 })
 export class SandboxPage implements AfterViewInit {
-  @ViewChild('previewFrame') previewFrame?: ElementRef<HTMLIFrameElement>;
+  readonly previewFrame = viewChild<ElementRef<HTMLIFrameElement>>('previewFrame');
 
   readonly componentCode = signal(DEFAULT_COMPONENT);
   readonly htmlCode = signal(DEFAULT_HTML);
@@ -66,7 +66,7 @@ export class SandboxPage implements AfterViewInit {
   }
 
   runPreview(): void {
-    const iframe = this.previewFrame?.nativeElement;
+    const iframe = this.previewFrame()?.nativeElement;
     if (!iframe) {
       return;
     }
