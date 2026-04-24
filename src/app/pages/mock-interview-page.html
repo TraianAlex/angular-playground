@@ -1,0 +1,39 @@
+<section class="mock-page">
+  <header>
+    <p class="label">Mock Interview Mode</p>
+    <h1>Timed-style Practice Questions</h1>
+    <p>Train with high-frequency Angular interview prompts and compare with sample answers.</p>
+  </header>
+
+  @if (!completed()) {
+    <article class="card">
+      <p class="progress">Question {{ progress() }}</p>
+      <h2>{{ currentQuestion().question }}</h2>
+
+      <div class="hints">
+        @for (hint of currentQuestion().hints; track hint) {
+          <span>{{ hint }}</span>
+        }
+      </div>
+
+      <div class="actions">
+        <button (click)="revealAnswer()">Reveal sample answer</button>
+      </div>
+
+      @if (showAnswer()) {
+        <blockquote>{{ currentQuestion().sampleAnswer }}</blockquote>
+        <div class="actions">
+          <button class="good" (click)="markGoodAnswer()">My answer was solid</button>
+          <button class="neutral" (click)="markNeedsWork()">Needs improvement</button>
+        </div>
+      }
+    </article>
+  } @else {
+    <article class="card">
+      <h2>Session complete</h2>
+      <p class="score">Score: {{ score() }} / {{ questions.length }}</p>
+      <p>Replay to improve weak areas and tighten your answer wording.</p>
+      <button (click)="restart()">Restart mock interview</button>
+    </article>
+  }
+</section>

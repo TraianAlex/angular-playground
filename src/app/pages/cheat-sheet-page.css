@@ -1,0 +1,48 @@
+.sheet-page {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.label {
+  color: #4338ca;
+  font-weight: 700;
+}
+
+button {
+  margin-top: 0.6rem;
+  border: 1px solid #312e81;
+  border-radius: 999px;
+  background: #1e1b4b;
+  color: #ffffff;
+  padding: 0.5rem 0.95rem;
+}
+
+.grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 0.9rem;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

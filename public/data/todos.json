@@ -1,0 +1,5 @@
+[
+  { "id": 1, "title": "Review standalone components", "completed": true },
+  { "id": 2, "title": "Practice DI interview answer", "completed": false },
+  { "id": 3, "title": "Implement one signal-based component", "completed": false }
+]

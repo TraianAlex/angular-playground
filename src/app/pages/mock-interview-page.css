@@ -1,0 +1,77 @@
+.mock-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.label {
+  color: #4338ca;
+  font-weight: 700;
+}
+
+.card {
+  margin-top: 1rem;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.progress {
+  color: #475569;
+  font-weight: 600;
+}
+
+.hints {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.75rem 0;
+}
+
+.hints span {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+button {
+  border: 1px solid #312e81;
+  border-radius: 999px;
+  background: #1e1b4b;
+  color: #ffffff;
+  padding: 0.5rem 0.9rem;
+}
+
+button.good {
+  border-color: #166534;
+  background: #15803d;
+}
+
+button.neutral {
+  border-color: #475569;
+  background: #334155;
+}
+
+blockquote {
+  margin: 0.8rem 0 0;
+  border-left: 4px solid #7c3aed;
+  background: #f5f3ff;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.score {
+  font-weight: 700;
+  color: #1e1b4b;
+}

@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.app-shell {
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 20% 0%, #eef2ff 0%, #f8fafc 36%, #eef2ff 100%);
+  color: #0f172a;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, #ffffff 88%, transparent);
+  border-bottom: 1px solid #dbeafe;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+}
+
+.brand {
+  text-decoration: none;
+  color: #111827;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4338ca;
+  background: #e0e7ff;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+}
+
+nav {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #334155;
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+nav a:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+nav a.active {
+  color: #312e81;
+  border-color: #c7d2fe;
+  background: #e0e7ff;
+  font-weight: 600;
+}
+
+main {
+  padding-bottom: 2rem;
+}

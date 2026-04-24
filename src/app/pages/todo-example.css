@@ -1,0 +1,60 @@
+.todo-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.label {
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+.add-row {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+input[type='text'] {
+  flex: 1;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.6rem;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  background: #111827;
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+}
+
+button.danger {
+  background: #dc2626;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+}
+
+.done {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+.status {
+  color: #4b5563;
+}

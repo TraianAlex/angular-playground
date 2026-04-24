@@ -1,0 +1,58 @@
+@if (page$ | async; as page) {
+  <div class="doc-layout">
+    <aside class="left-nav">
+      <h3>Interview Refresh</h3>
+      @for (item of allPages; track item.slug) {
+        <a [routerLink]="['/docs', item.slug]" routerLinkActive="active">
+          {{ item.title }}
+        </a>
+      }
+      <small>Updated {{ today() }}</small>
+    </aside>
+
+    <article class="doc-content" id="top">
+      <header>
+        <p class="kicker">Angular Interview Knowledge Base</p>
+        <h1>{{ page.title }}</h1>
+        <p class="subtitle">{{ page.subtitle }}</p>
+        <p class="focus"><strong>Interview focus:</strong> {{ page.interviewFocus }}</p>
+      </header>
+
+      @for (section of page.sections; track section.id) {
+        <section [id]="section.id" class="section-card">
+          <h2>{{ section.title }}</h2>
+          @for (line of section.content; track line) {
+            <p>{{ line }}</p>
+          }
+        </section>
+      }
+
+      <section class="snippet-panel">
+        <h2>Must-Know Answer Snippets</h2>
+        <p class="snippet-subtitle">Use these short answers as interview-ready memory hooks.</p>
+        <div class="snippet-list">
+          @for (snippet of page.answerSnippets; track snippet) {
+            <blockquote>{{ snippet }}</blockquote>
+          }
+        </div>
+      </section>
+
+      <section class="examples">
+        <h2>Learn By Real Example</h2>
+        <div class="example-actions">
+          @for (link of page.exampleLinks; track link.route) {
+            <a class="button" [routerLink]="link.route">{{ link.label }}</a>
+          }
+        </div>
+      </section>
+    </article>
+
+    <aside class="right-nav">
+      <h4>On this page</h4>
+      @for (section of page.sections; track section.id) {
+        <a [href]="'#' + section.id">{{ section.title }}</a>
+      }
+      <a href="#top">Back to top</a>
+    </aside>
+  </div>
+}

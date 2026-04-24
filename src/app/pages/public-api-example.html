@@ -1,0 +1,28 @@
+<section class="api-page">
+  <header>
+    <p class="label">Public API Example</p>
+    <h1>Users Directory from JSONPlaceholder</h1>
+    <p>
+      This page demonstrates real HTTP requests to a public API and user-friendly loading/error states.
+    </p>
+  </header>
+
+  <div class="toolbar">
+    <button (click)="loadUsers()" [disabled]="loading()">Reload Users</button>
+    <p class="status">{{ status() }}</p>
+  </div>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <div class="grid">
+    @for (user of users(); track user.id) {
+      <article class="card">
+        <h2>{{ user.name }}</h2>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Company:</strong> {{ user.company.name }}</p>
+      </article>
+    }
+  </div>
+</section>

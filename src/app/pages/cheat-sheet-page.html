@@ -1,0 +1,21 @@
+<section class="sheet-page">
+  <header>
+    <p class="label">Cheat Sheet</p>
+    <h1>Angular Interview Quick Notes</h1>
+    <p>Review fast, then download a markdown version for offline practice.</p>
+    <button (click)="downloadCheatSheet()">Download Cheat Sheet (.md)</button>
+  </header>
+
+  <div class="grid">
+    @for (section of sections; track section.title) {
+      <article class="card">
+        <h2>{{ section.title }}</h2>
+        <ul>
+          @for (bullet of section.bullets; track bullet) {
+            <li>{{ bullet }}</li>
+          }
+        </ul>
+      </article>
+    }
+  </div>
+</section>

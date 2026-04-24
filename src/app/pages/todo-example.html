@@ -1,0 +1,34 @@
+<section class="todo-page">
+  <header>
+    <p class="label">Real Example</p>
+    <h1>Todo CRUD + Fake API Latency</h1>
+    <p>
+      This example simulates real backend latency using local JSON and 1 second response delay.
+      Great for interview discussion around async UX.
+    </p>
+  </header>
+
+  <div class="add-row">
+    <input
+      type="text"
+      placeholder="Write a task"
+      [ngModel]="newTitle()"
+      (ngModelChange)="newTitle.set($event)"
+    />
+    <button (click)="addTodo()" [disabled]="loading()">Add Todo</button>
+  </div>
+
+  <p class="status">{{ status() }}</p>
+
+  <ul>
+    @for (todo of todos(); track todo.id) {
+      <li>
+        <label>
+          <input type="checkbox" [checked]="todo.completed" (change)="toggleTodo(todo)" [disabled]="loading()" />
+          <span [class.done]="todo.completed">{{ todo.title }}</span>
+        </label>
+        <button class="danger" (click)="removeTodo(todo.id)" [disabled]="loading()">Delete</button>
+      </li>
+    }
+  </ul>
+</section>

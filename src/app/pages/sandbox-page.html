@@ -1,0 +1,33 @@
+<section class="sandbox">
+  <header>
+    <p class="label">Interactive Lab</p>
+    <h1>Component Sandbox (TS + HTML + CSS)</h1>
+    <p>
+      Storybook-style playground where you can edit component script, template and styles in separate panes
+      and see a live preview.
+    </p>
+  </header>
+
+  <div class="actions">
+    <button (click)="loadCounterPreset()">Load Counter Preset</button>
+  </div>
+
+  <div class="grid">
+    <label>
+      <span>Component (TS-like)</span>
+      <textarea [ngModel]="componentCode()" (ngModelChange)="componentCode.set($event)"></textarea>
+    </label>
+
+    <label>
+      <span>Template (HTML)</span>
+      <textarea [ngModel]="htmlCode()" (ngModelChange)="htmlCode.set($event)"></textarea>
+    </label>
+
+    <label>
+      <span>Styles (CSS)</span>
+      <textarea [ngModel]="cssCode()" (ngModelChange)="cssCode.set($event)"></textarea>
+    </label>
+  </div>
+
+  <div class="preview" [innerHTML]="preview()"></div>
+</section>
