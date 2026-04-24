@@ -94,6 +94,15 @@
   color: var(--docs-text-secondary);
 }
 
+.coverage-note {
+  margin-top: 0.8rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 10px;
+  background: var(--docs-bg-code);
+  color: var(--docs-text-secondary);
+}
+
 .section-card {
   margin-top: 1.35rem;
   padding-top: 1rem;
@@ -125,6 +134,12 @@
 .section-example-description {
   margin: 0.35rem 0 0.75rem;
   color: var(--docs-text-muted);
+}
+
+.section-demo-links {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
 }
 
 .snippet-panel {

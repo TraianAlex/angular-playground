@@ -16,6 +16,11 @@
         <h1>{{ page.title }}</h1>
         <p class="subtitle">{{ page.subtitle }}</p>
         <p class="focus"><strong>Interview focus:</strong> {{ page.interviewFocus }}</p>
+        <div class="coverage-note">
+          <strong>Demo coverage:</strong>
+          {{ page.sections.length }} core concepts mapped to hands-on examples, plus
+          {{ page.exampleLinks.length }} quick demos.
+        </div>
       </header>
 
       @for (section of page.sections; track section.id) {
@@ -27,7 +32,11 @@
           <div class="section-example">
             <p class="section-example-title">{{ section.example.title }}</p>
             <p class="section-example-description">{{ section.example.description }}</p>
-            <a class="button button-secondary" [routerLink]="section.example.route">Open this example</a>
+            <div class="section-demo-links">
+              @for (demo of getSectionDemos(page, section); track demo.route) {
+                <a class="button button-secondary" [routerLink]="demo.route">{{ demo.label }}</a>
+              }
+            </div>
           </div>
         </section>
       }

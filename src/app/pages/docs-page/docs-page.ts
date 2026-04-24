@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
 import { DOC_PAGES } from '../../docs-content';
+import { DocPage, DocSection, ExampleLink } from '../../models/docs.model';
 
 @Component({
   selector: 'app-docs-page',
@@ -21,4 +22,9 @@ export class DocsPage {
 
   readonly allPages = DOC_PAGES;
   readonly today = computed(() => new Date().toLocaleDateString());
+
+  getSectionDemos(page: DocPage, section: DocSection): ExampleLink[] {
+    const extraDemos = page.exampleLinks.filter((link) => link.route !== section.example.route).slice(0, 2);
+    return [{ label: section.example.title, route: section.example.route }, ...extraDemos];
+  }
 }
