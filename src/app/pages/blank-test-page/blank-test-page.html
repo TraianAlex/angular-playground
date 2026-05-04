@@ -9,6 +9,126 @@
   </header>
 
   <article class="workspace">
-    <!-- Add your test component content here -->
+    <form [formRoot]="regForm" class="reg-form">
+      <div class="field">
+        <label for="reg-username">Username</label>
+        <input
+          id="reg-username"
+          type="text"
+          autocomplete="username"
+          [formField]="regForm.username"
+          [class.input-invalid]="regForm.username().touched() && regForm.username().invalid()"
+        />
+        @if (regForm.username().touched() && regForm.username().invalid()) {
+          <div class="field-errors" role="alert">
+            @for (err of regForm.username().errors(); track err.kind) {
+              <span class="error">{{ err.message }}</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="field">
+        <label for="reg-email">Email</label>
+        <input
+          id="reg-email"
+          type="email"
+          autocomplete="email"
+          [formField]="regForm.email"
+          [class.input-invalid]="regForm.email().touched() && regForm.email().invalid()"
+        />
+        @if (regForm.email().touched() && regForm.email().invalid()) {
+          <div class="field-errors" role="alert">
+            @for (err of regForm.email().errors(); track err.kind) {
+              <span class="error">
+                @switch (err.kind) {
+                  @case ('required') { Email is required }
+                }
+              </span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="field">
+        <label for="reg-password">Password</label>
+        <input
+          id="reg-password"
+          type="password"
+          autocomplete="new-password"
+          [formField]="regForm.password"
+          [class.input-invalid]="regForm.password().touched() && regForm.password().invalid()"
+        />
+        @if (regForm.password().touched() && regForm.password().invalid()) {
+          <div class="field-errors" role="alert">
+            @for (err of regForm.password().errors(); track err.kind) {
+              <span class="error">{{ err.message }}</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="field">
+        <label for="reg-confirm-password">Confirm password</label>
+        <input
+          id="reg-confirm-password"
+          type="password"
+          autocomplete="new-password"
+          [formField]="regForm.confirmPassword"
+          [class.input-invalid]="regForm.confirmPassword().touched() && regForm.confirmPassword().invalid()"
+        />
+        @if (regForm.confirmPassword().touched() && regForm.confirmPassword().invalid()) {
+          <div class="field-errors" role="alert">
+            @for (err of regForm.confirmPassword().errors(); track err.kind) {
+              <span class="error">
+                @switch (err.kind) {
+                  @case ('required') { Please confirm your password }
+                  @case ('mismatch') { Passwords do not match }
+                }
+              </span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="items">
+        <button type="button" (click)="addItem()">Add item</button>
+        <div id="reg-items">
+          @for (itemField of regForm.items; track itemField; let i = $index) {
+            <div class="item">
+              <input type="text" [formField]="itemField.product" [class.input-invalid]="itemField.product().touched() && itemField.product().invalid()" />
+              <input type="number" [formField]="itemField.quantity" [class.input-invalid]="itemField.quantity().touched() && itemField.quantity().invalid()" />
+              <input type="number" [formField]="itemField.price" [class.input-invalid]="itemField.price().touched() && itemField.price().invalid()" />
+              <button type="button" (click)="removeItem(i)">Remove</button>
+              @if (itemField.product().touched() && itemField.product().invalid()) {
+                <div class="field-errors" role="alert">
+                  @for (err of itemField.product().errors(); track err.kind) {
+                    <span class="error">{{ err.message }}</span>
+                  }
+                </div>
+              }
+              @if (itemField.quantity().touched() && itemField.quantity().invalid()) {
+                <div class="field-errors" role="alert">
+                  @for (err of itemField.quantity().errors(); track err.kind) {
+                    <span class="error">{{ err.message }}</span>
+                  }
+                </div>
+              }
+              @if (itemField.price().touched() && itemField.price().invalid()) {
+                <div class="field-errors" role="alert">
+                  @for (err of itemField.price().errors(); track err.kind) {
+                    <span class="error">{{ err.message }}</span>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="regForm().invalid()">Create account</button>
+      </div>
+    </form>
   </article>
 </section>
