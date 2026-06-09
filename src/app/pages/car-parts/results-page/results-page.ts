@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { CarPart } from '../../../models/car-part.model';
 import { omitNullish } from '../utils/omit-nullish';
@@ -13,7 +13,6 @@ type PartsSearchParams = {
 
 @Component({
   selector: 'app-car-parts-results-page',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './results-page.html',
   styleUrl: './results-page.css',
 })

@@ -1,4 +1,4 @@
-import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import {
   applyEach,
   debounce,
@@ -17,7 +17,6 @@ import {
   selector: 'app-blank-test-page',
   imports: [FormField, FormRoot],
   templateUrl: './blank-test-page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './blank-test-page.css',
 })
 export class BlankTestPage {

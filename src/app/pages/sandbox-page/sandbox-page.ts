@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  signal,
-  viewChild,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 const DEFAULT_COMPONENT = `import { Component } from '@angular/core';
@@ -44,7 +37,6 @@ button {
   selector: 'app-sandbox-page',
   imports: [FormsModule],
   templateUrl: './sandbox-page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './sandbox-page.css',
 })
 export class SandboxPage implements AfterViewInit {

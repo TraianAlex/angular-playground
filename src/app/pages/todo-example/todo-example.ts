@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  resource,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, inject, resource, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 
@@ -15,7 +8,6 @@ import { FakeApiService, TodoItem } from '../../services/fake-api.service';
   selector: 'app-todo-example',
   imports: [FormsModule],
   templateUrl: './todo-example.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './todo-example.css',
 })
 export class TodoExample {

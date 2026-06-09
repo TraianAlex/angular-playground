@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  injectAsync,
-  onIdle,
-  signal,
-} from '@angular/core';
+import { Component, inject, injectAsync, onIdle, signal } from '@angular/core';
 import { apply, form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -18,16 +11,8 @@ import { CarPartsSearchModel } from '../utils/types';
 
 @Component({
   selector: 'app-search-form',
-  imports: [
-    FormField,
-    FormRoot,
-    MatButton,
-    MatIcon,
-    MatProgressSpinner,
-    PartClassSelector,
-  ],
+  imports: [FormField, FormRoot, MatButton, MatIcon, MatProgressSpinner, PartClassSelector],
   templateUrl: './search-form.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './search-form.css',
 })
 export class SearchForm {

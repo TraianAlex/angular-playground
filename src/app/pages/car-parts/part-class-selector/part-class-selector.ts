@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, model } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { PartClassFilter } from '../utils/types';
 
@@ -10,7 +10,6 @@ export interface PartClassOption {
 
 @Component({
   selector: 'app-part-class-selector',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './part-class-selector.html',
   styleUrl: './part-class-selector.css',
 })

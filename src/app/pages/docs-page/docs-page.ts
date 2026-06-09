@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
@@ -10,7 +10,6 @@ import { DocPage, DocSection, ExampleLink } from '../../models/docs.model';
   selector: 'app-docs-page',
   imports: [CommonModule, RouterLink],
   templateUrl: './docs-page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './docs-page.css',
 })
 export class DocsPage {
