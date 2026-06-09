@@ -1,24 +1,19 @@
-import { Injectable, Service, inject } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { Router } from '@angular/router';
 import { omitNullish } from './utils/omit-nullish';
-
-export interface CarPartsResultsParams {
-  vin: string;
-  oem: string;
-  partClass: string;
-}
+import { CarPartsSearchModel } from './utils/types';
 
 @Service()
 export class CarPartsNavigation {
   readonly #router = inject(Router);
 
-  navigateToResultsPage(params: CarPartsResultsParams): Promise<boolean> {
+  navigateToResultsPage(params: CarPartsSearchModel): Promise<boolean> {
     return this.#router
       .navigate(['/examples/car-parts/results'], {
         queryParams: omitNullish({
           vin: params.vin,
           oem: params.oem,
-          partClass: params.partClass,
+          partClass: params.partClass === 'all' ? undefined : params.partClass,
         }),
       })
       .then((success) => {

@@ -1,43 +1,69 @@
-<form [formRoot]="searchForm" class="flex flex-col gap-6">
+<form [formRoot]="searchForm" class="search-form">
   @let vin = searchForm.vin();
-  <mat-form-field appearance="fill">
-    <mat-label>VIN Number</mat-label>
-    <!--binding a form field-->
-    <input [formField]="searchForm.vin" type="text" matInput placeholder="e.g. JT3HP10VtX7063958" />
-    <mat-hint>17 characters, no letters I, O, Q</mat-hint>
-    @if (vin.pending()) {
-      <mat-spinner matSuffix diameter="20" class="mr-2" />
+  <div class="field">
+    <label class="field-label" for="car-parts-vin">VIN Number*</label>
+    <div class="field-input-wrap">
+      <input
+        id="car-parts-vin"
+        class="field-input"
+        [class.field-input-invalid]="vin.touched() && vin.invalid()"
+        [formField]="searchForm.vin"
+        type="text"
+        spellcheck="false"
+        autocomplete="off"
+        placeholder="e.g. JT3HP10VTX7063958"
+      />
+      @if (vin.pending()) {
+        <mat-spinner class="field-spinner" diameter="20" />
+      }
+    </div>
+    <p class="field-hint">17 characters, no letters I, O, Q</p>
+    @if (vin.touched() && vin.invalid()) {
+      @for (error of vin.errors(); track error.kind) {
+        <p class="field-error" role="alert">{{ error.message }}</p>
+      }
     }
-    @for (error of vin.errors(); track error.kind) {
-      <mat-error role="alert">{{ error.message }}</mat-error>
-    }
-  </mat-form-field>
-  @let oem = searchForm.oem();
-  <mat-form-field appearance="fill">
-    <mat-label>OEM Part Number</mat-label>
-    <input [formField]="searchForm.oem" type="text" matInput placeholder="e.g. 12345-ABCDE" />
-    <mat-hint>Format: XXXXX-XXXXX</mat-hint>
-    @if (oem.pending()) {
-      <mat-spinner matSuffix diameter="20" class="mr-2" />
-    }
-    @for (error of oem.errors(); track error.kind) {
-      <mat-error role="alert">{{ error.message }}</mat-error>
-    }
-  </mat-form-field>
+  </div>
 
-  <!--binding a custom control component-->
+  @let oem = searchForm.oem();
+  <div class="field">
+    <label class="field-label" for="car-parts-oem">OEM Part Number*</label>
+    <div class="field-input-wrap">
+      <input
+        id="car-parts-oem"
+        class="field-input"
+        [class.field-input-invalid]="oem.touched() && oem.invalid()"
+        [formField]="searchForm.oem"
+        type="text"
+        spellcheck="false"
+        autocomplete="off"
+        placeholder="e.g. 12345-ABCDE"
+      />
+      @if (oem.pending()) {
+        <mat-spinner class="field-spinner" diameter="20" />
+      }
+    </div>
+    <p class="field-hint">Format: XXXXX-XXXXX</p>
+    @if (oem.touched() && oem.invalid()) {
+      @for (error of oem.errors(); track error.kind) {
+        <p class="field-error" role="alert">{{ error.message }}</p>
+      }
+    }
+  </div>
+
   <app-part-class-selector [formField]="searchForm.partClass" />
+
   <button
     type="submit"
     mat-raised-button
     color="primary"
+    class="configure-btn"
     [disabled]="searchForm().pending() || searchForm().submitting()"
   >
-    @if (searchForm().pending()) {
-      <mat-progress-spinner progressIndicator mode="indeterminate" diameter="20" />
+    @if (searchForm().pending() || searchForm().submitting()) {
+      <mat-progress-spinner mode="indeterminate" diameter="20" />
     }
     <mat-icon>build</mat-icon>
     Configure
   </button>
-  <button (click)="model.update((m) => ({ ...m, vin: '' }))">Reset VIN</button>
 </form>

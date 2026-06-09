@@ -1,0 +1,83 @@
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.field-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ececec;
+}
+
+.field-input-wrap {
+  position: relative;
+}
+
+.field-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #3a3a3a;
+  border-radius: 0.65rem;
+  background: #141414;
+  color: #f5f5f5;
+  padding: 0.85rem 2.5rem 0.85rem 0.95rem;
+  font-size: 1rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.field-input::placeholder {
+  color: #6b6b6b;
+}
+
+.field-input:focus {
+  outline: 2px solid #5a5a5a;
+  outline-offset: 1px;
+  border-color: #4a4a4a;
+}
+
+.field-input.field-input-invalid {
+  border-color: #f87171;
+}
+
+.field-input.field-input-invalid:focus {
+  outline-color: #f87171;
+  border-color: #f87171;
+}
+
+.field-spinner {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+}
+
+.field-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #8a8a8a;
+}
+
+.field-error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #fca5a5;
+}
+
+.configure-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+}

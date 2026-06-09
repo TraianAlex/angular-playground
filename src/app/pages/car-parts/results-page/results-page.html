@@ -1,24 +1,44 @@
-<!-- 'idle' | 'loading' | 'reloading' | 'error' | 'resolved' | 'local' -->
-<p>Resource status: {{ partsResource.status() }}</p>
-@if (partsResource.isLoading()) {
-  <p>Loading...</p>
-}
-@if (partsResource.hasValue()) {
-  <p>Resource value: {{ partsResource.value() }}</p>
-}
-@if (partsResource.error()) {
-  <p>Resource Error: {{ partsResource.error() }}</p>
-}
+<section class="results-page">
+  <header class="results-header">
+    <h1>Parts Results</h1>
+    <p class="results-query">
+      VIN: <strong>{{ vin() || '—' }}</strong> · OEM:
+      <strong>{{ oem() || '—' }}</strong> · Class:
+      <strong>{{ partClass() || 'all' }}</strong>
+    </p>
+  </header>
 
-<button (click)="partsResource.reload()">Reload</button>
-<button (click)="partsResource.set([])">Set to empty array</button>
-<button (click)="partsResource.update((parts) => (parts ? [...parts] : []))">Update</button>
+  @if (!oem()) {
+    <p class="results-hint">Submit the search form with a valid OEM number to load results.</p>
+  } @else if (partsResource.isLoading()) {
+    <p class="results-status">Loading parts…</p>
+  } @else if (partsResource.error(); as error) {
+    <p class="results-error" role="alert">Failed to load parts: {{ error.message }}</p>
+  } @else if (partsResource.hasValue()) {
+    @if (partsResource.value()!.length === 0) {
+      <p class="results-empty">No parts found for this search.</p>
+    } @else {
+      <ul class="parts-list">
+        @for (part of partsResource.value()!; track part.id) {
+          <li class="part-card">
+            <div class="part-card-header">
+              <h2>{{ part.name }}</h2>
+              <span class="part-status" [class.is-unavailable]="part.status === 'unavailable'">
+                {{ part.status }}
+              </span>
+            </div>
+            <p class="part-meta">
+              {{ part.brand }} · {{ part.category }} · {{ part.partClass }}
+            </p>
+            <p class="part-oem">OEM: {{ part.oem }}</p>
+          </li>
+        }
+      </ul>
+    }
+  }
 
-<!-- ang 22 resource -->
-<p>Resource status: {{ partsResource3.statusCode() }}</p>
-<p>headers; {{ partsResource3.headers() }}</p>
-<!--For requests with 'reportDownloadProgress: true'-->
-<p>Progress: {{ partsResource3.progress() }}</p>
-
-<!--All other APIs available for "resource", e.g-->
-<p>Status: {{ partsResource3.status() }}</p>
+  <footer class="results-footer">
+    <p>Angular 22 demo: <code>httpResource</code> status — {{ partsResource.status() }}</p>
+    <button type="button" (click)="partsResource.reload()">Reload</button>
+  </footer>
+</section>

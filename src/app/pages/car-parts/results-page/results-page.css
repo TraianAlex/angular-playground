@@ -1,0 +1,106 @@
+.results-page {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  color: #f5f5f5;
+}
+
+.results-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.results-query {
+  margin: 0;
+  color: #a3a3a3;
+  font-size: 0.9rem;
+}
+
+.results-hint,
+.results-status,
+.results-empty,
+.results-error {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: #1c1c1c;
+  border: 1px solid #2e2e2e;
+}
+
+.results-error {
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+
+.parts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.part-card {
+  padding: 1rem 1.1rem;
+  border-radius: 0.85rem;
+  background: #1c1c1c;
+  border: 1px solid #2e2e2e;
+}
+
+.part-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.part-card-header h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.part-status {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #86efac;
+}
+
+.part-status.is-unavailable {
+  color: #fca5a5;
+}
+
+.part-meta,
+.part-oem {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: #a3a3a3;
+}
+
+.results-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2e2e2e;
+  font-size: 0.85rem;
+  color: #8a8a8a;
+}
+
+.results-footer button {
+  border: 1px solid #3a3a3a;
+  border-radius: 999px;
+  background: #141414;
+  color: #f0f0f0;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+}
+
+.results-footer button:hover {
+  background: #1a1a1a;
+}

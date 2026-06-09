@@ -1,4 +1,4 @@
-import { SchemaPath, validateHttp, debounce } from '@angular/forms/signals';
+import { debounce, SchemaPath, validateHttp } from '@angular/forms/signals';
 import type { CarPartStatus } from '../../../models/car-part.model';
 import { environment } from '../../../../environments/environment';
 import { getHttpStatus } from '../utils/http-status';
@@ -9,8 +9,8 @@ export interface CartPartAvailabilityValidationResponse {
 }
 
 export function validateHttpCartpartAvailability(path: SchemaPath<string>): void {
+  debounce(path, 300);
   validateHttp(path, {
-    // debounce: 300,
     request: ({ value }) =>
       `${environment.apiUrl}/parts/validate?oem=${encodeURIComponent(value())}`,
     onSuccess: (result: CartPartAvailabilityValidationResponse) => {
