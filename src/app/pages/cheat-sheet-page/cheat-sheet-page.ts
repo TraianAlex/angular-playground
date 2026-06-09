@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { sections } from './utils';
 
 @Component({
   selector: 'app-cheat-sheet-page',
   imports: [],
   templateUrl: './cheat-sheet-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cheat-sheet-page.css',
 })
 export class CheatSheetPage {

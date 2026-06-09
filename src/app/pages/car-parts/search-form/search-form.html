@@ -1,0 +1,43 @@
+<form [formRoot]="searchForm" class="flex flex-col gap-6">
+  @let vin = searchForm.vin();
+  <mat-form-field appearance="fill">
+    <mat-label>VIN Number</mat-label>
+    <!--binding a form field-->
+    <input [formField]="searchForm.vin" type="text" matInput placeholder="e.g. JT3HP10VtX7063958" />
+    <mat-hint>17 characters, no letters I, O, Q</mat-hint>
+    @if (vin.pending()) {
+      <mat-spinner matSuffix diameter="20" class="mr-2" />
+    }
+    @for (error of vin.errors(); track error.kind) {
+      <mat-error role="alert">{{ error.message }}</mat-error>
+    }
+  </mat-form-field>
+  @let oem = searchForm.oem();
+  <mat-form-field appearance="fill">
+    <mat-label>OEM Part Number</mat-label>
+    <input [formField]="searchForm.oem" type="text" matInput placeholder="e.g. 12345-ABCDE" />
+    <mat-hint>Format: XXXXX-XXXXX</mat-hint>
+    @if (oem.pending()) {
+      <mat-spinner matSuffix diameter="20" class="mr-2" />
+    }
+    @for (error of oem.errors(); track error.kind) {
+      <mat-error role="alert">{{ error.message }}</mat-error>
+    }
+  </mat-form-field>
+
+  <!--binding a custom control component-->
+  <app-part-class-selector [formField]="searchForm.partClass" />
+  <button
+    type="submit"
+    mat-raised-button
+    color="primary"
+    [disabled]="searchForm().pending() || searchForm().submitting()"
+  >
+    @if (searchForm().pending()) {
+      <mat-progress-spinner progressIndicator mode="indeterminate" diameter="20" />
+    }
+    <mat-icon>build</mat-icon>
+    Configure
+  </button>
+  <button (click)="model.update((m) => ({ ...m, vin: '' }))">Reset VIN</button>
+</form>

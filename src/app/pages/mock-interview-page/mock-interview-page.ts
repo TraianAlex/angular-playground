@@ -1,10 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { questions } from './utils';
 
 @Component({
   selector: 'app-mock-interview-page',
   imports: [],
   templateUrl: './mock-interview-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './mock-interview-page.css',
 })
 export class MockInterviewPage {

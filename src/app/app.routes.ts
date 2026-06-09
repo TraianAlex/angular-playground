@@ -33,5 +33,14 @@ export const routes: Routes = [
     path: 'blank-test',
     loadComponent: () => import('./pages/blank-test-page/blank-test-page').then((m) => m.BlankTestPage)
   },
+  {
+    path: 'examples/car-parts',
+    loadComponent: () => import('./pages/car-parts/car-parts').then((m) => m.CarParts)
+  },
+  {
+    path: 'examples/car-parts/results',
+    loadComponent: () =>
+      import('./pages/car-parts/results-page/results-page').then((m) => m.CarPartsResultsPage)
+  },
   { path: '**', redirectTo: 'docs/fundamentals' }
 ];

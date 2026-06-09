@@ -1,4 +1,11 @@
-import { Component, computed, inject, resource, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  resource,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { PublicUser, PublicUsersService } from '../../services/public-users.service';
 
@@ -6,6 +13,7 @@ import { PublicUser, PublicUsersService } from '../../services/public-users.serv
   selector: 'app-public-api-example',
   imports: [],
   templateUrl: './public-api-example.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './public-api-example.css',
 })
 export class PublicApiExample {

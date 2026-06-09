@@ -1,11 +1,24 @@
-import { Component, computed, signal } from '@angular/core';
-import { applyEach, debounce, email, form, FormField, FormRoot, min, minLength, required, SchemaPathTree, validate } from '@angular/forms/signals';
+import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  applyEach,
+  debounce,
+  email,
+  form,
+  FormField,
+  FormRoot,
+  min,
+  minLength,
+  required,
+  SchemaPathTree,
+  validate,
+} from '@angular/forms/signals';
 
 @Component({
   selector: 'app-blank-test-page',
   imports: [FormField, FormRoot],
   templateUrl: './blank-test-page.html',
-  styleUrl: './blank-test-page.css'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './blank-test-page.css',
 })
 export class BlankTestPage {
   protected readonly regModel = signal({
@@ -13,7 +26,7 @@ export class BlankTestPage {
     email: '',
     password: '',
     confirmPassword: '',
-    items: [{ id: crypto.randomUUID(), product: '', quantity: 1, price: 0 }]
+    items: [{ id: crypto.randomUUID(), product: '', quantity: 1, price: 0 }],
   });
 
   protected readonly regForm = form(
@@ -37,11 +50,24 @@ export class BlankTestPage {
         }
         return undefined;
       });
-      applyEach(f.items, (item: SchemaPathTree<{ id: `${string}-${string}-${string}-${string}-${string}`; product: string; quantity: number; price: number; }, any>) => {
-        required(item.product, { message: 'Product is required' });
-        min(item.quantity, 1, { message: 'Quantity must be at least 1' });
-        min(item.price, 10, { message: 'Price must be at least 10' });
-      });
+      applyEach(
+        f.items,
+        (
+          item: SchemaPathTree<
+            {
+              id: `${string}-${string}-${string}-${string}-${string}`;
+              product: string;
+              quantity: number;
+              price: number;
+            },
+            any
+          >,
+        ) => {
+          required(item.product, { message: 'Product is required' });
+          min(item.quantity, 1, { message: 'Quantity must be at least 1' });
+          min(item.price, 10, { message: 'Price must be at least 10' });
+        },
+      );
     },
     {
       submission: {
@@ -56,14 +82,14 @@ export class BlankTestPage {
   addItem() {
     this.regModel.update((current) => ({
       ...current,
-      items: [...current.items, { id: crypto.randomUUID(), product: '', quantity: 1, price: 0 }]
+      items: [...current.items, { id: crypto.randomUUID(), product: '', quantity: 1, price: 0 }],
     }));
   }
 
   removeItem(index: number) {
     this.regModel.update((current) => ({
       ...current,
-      items: current.items.filter((_, i) => i !== index)
+      items: current.items.filter((_, i) => i !== index),
     }));
   }
 

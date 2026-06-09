@@ -1,0 +1,24 @@
+<!-- 'idle' | 'loading' | 'reloading' | 'error' | 'resolved' | 'local' -->
+<p>Resource status: {{ partsResource.status() }}</p>
+@if (partsResource.isLoading()) {
+  <p>Loading...</p>
+}
+@if (partsResource.hasValue()) {
+  <p>Resource value: {{ partsResource.value() }}</p>
+}
+@if (partsResource.error()) {
+  <p>Resource Error: {{ partsResource.error() }}</p>
+}
+
+<button (click)="partsResource.reload()">Reload</button>
+<button (click)="partsResource.set([])">Set to empty array</button>
+<button (click)="partsResource.update((parts) => (parts ? [...parts] : []))">Update</button>
+
+<!-- ang 22 resource -->
+<p>Resource status: {{ partsResource3.statusCode() }}</p>
+<p>headers; {{ partsResource3.headers() }}</p>
+<!--For requests with 'reportDownloadProgress: true'-->
+<p>Progress: {{ partsResource3.progress() }}</p>
+
+<!--All other APIs available for "resource", e.g-->
+<p>Status: {{ partsResource3.status() }}</p>
