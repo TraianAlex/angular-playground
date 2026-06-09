@@ -2,5 +2,39 @@
   <article class="catalog-card">
     <h1 class="catalog-title">Toyota Parts Catalog</h1>
     <app-search-form />
+
+    <section class="sample-values" aria-labelledby="sample-values-title">
+      <h2 id="sample-values-title" class="sample-values-title">Sample values</h2>
+      <p class="sample-values-hint">Copy one value at a time to try the demo.</p>
+
+      <ul class="sample-values-list">
+        @for (sample of samples; track sample.field) {
+          <li class="sample-value-row">
+            <span class="sample-value-label">{{ sample.label }}</span>
+            <code class="sample-value-code">{{ sample.value }}</code>
+            <button
+              type="button"
+              class="sample-copy-btn"
+              (click)="copySample(sample.field, sample.value)"
+            >
+              @if (copiedField() === sample.field) {
+                Copied
+              } @else {
+                Copy
+              }
+            </button>
+          </li>
+        }
+      </ul>
+    </section>
+
+    @if (searchFormCmp(); as formCmp) {
+      <section class="debug-panel" aria-labelledby="debug-panel-title">
+        <h2 id="debug-panel-title" class="debug-panel-title">Debug</h2>
+        <p>VIN: {{ formCmp.searchForm.vin().value() }}</p>
+        <p>OEM: {{ formCmp.searchForm.oem().value() }}</p>
+        <p>Part Class: {{ formCmp.searchForm.partClass().value() }}</p>
+      </section>
+    }
   </article>
 </section>
