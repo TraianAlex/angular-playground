@@ -22,6 +22,14 @@ export class SearchForm {
     { prefetch: onIdle },
   );
 
+  // readonly #fb = inject(NonNullableFormBuilder);
+
+  // readonly form = this.#fb.group({
+  //   vin: ['', [Validators.required, exactLength(17)]],
+  //   oem: ['', [Validators.required]],
+  //   partClass: [''],
+  // });
+
   readonly model = signal<CarPartsSearchModel>({
     vin: '',
     oem: '',
@@ -33,6 +41,15 @@ export class SearchForm {
     (s) => {
       required(s.vin, { message: 'VIN number is required' });
       required(s.oem, { message: 'OEM number is required' });
+      // inline validation
+      // validate(s.vin, ({ value }) => {
+      //   if (value().trim().length === 0)
+      //     return { kind: 'custom ', message: 'VIN number is required' };
+      //   return null;
+      // });
+      // ang 22 validators
+      // exactLength(s.vin, 17, { message: 'VIN number must be 17 characters' });
+      // api validation
       apply(s.vin, vinNumberSchema);
       apply(s.oem, oemNumberSchema);
     },
