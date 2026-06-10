@@ -17,6 +17,11 @@
   </header>
 
   <main>
+    @if (isNavigating()) {
+      <div class="loading-indicator">
+        <mat-progress-spinner mode="indeterminate" diameter="40" />
+      </div>
+    }
     <router-outlet />
   </main>
 </div>

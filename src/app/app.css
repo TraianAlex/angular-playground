@@ -69,5 +69,16 @@ nav a.active {
 }
 
 main {
+  position: relative;
   padding-bottom: 2rem;
+}
+
+.loading-indicator {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: rgb(15 13 11 / 0.45);
+  pointer-events: none;
 }
