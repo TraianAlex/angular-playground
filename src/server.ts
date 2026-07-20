@@ -14,7 +14,9 @@ import {
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+const angularApp = new AngularNodeAppEngine({
+  allowedHosts: ['localhost'],
+});
 
 app.get('/parts/validate', handleCarPartsValidate);
 app.get('/parts', handleCarPartsSearch);
